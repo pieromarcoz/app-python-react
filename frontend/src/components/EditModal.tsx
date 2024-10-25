@@ -5,21 +5,52 @@ import {
     DialogContent, DialogFooter,
     DialogHeader, DialogRoot,
     DialogTitle,
-    DialogTrigger, Flex, HStack, IconButton, Input, Textarea
+    DialogTrigger, Flex, IconButton, Input, Textarea, useDisclosure
 } from "@chakra-ui/react";
-import {BiAddToQueue, BiEditAlt} from "react-icons/bi";
+import { BiEditAlt} from "react-icons/bi";
 import {Field} from "./ui/field.tsx";
-import {Radio, RadioGroup} from "./ui/radio.tsx";
 import {useForm} from "react-hook-form";
+import {useEffect} from "react";
+import {toaster} from "./ui/toaster.tsx";
+import {User} from "../dummy/dummy.ts";
 
-export default function EditModal() {
-    const { register, handleSubmit, watch, formState: { errors } } = useForm();
+interface UserProps {
+    user: User;
+    setUsers: React.Dispatch<React.SetStateAction<User[]>>;
+}
+export default function EditModal({user, setUsers}: UserProps) {
+    const { register, handleSubmit, watch, setValue } = useForm();
+    const {onClose, open, onOpen} = useDisclosure();
 
-    const onSubmit = (data) => {
-        console.log(data);
+    useEffect(() => {
+        setValue("name", user.name);
+        setValue("role", user.role);
+        setValue("description", user.description);
+    }, [user]);
+    const handleEditUser = async () => {
+        try {
+            const response = await fetch(`http://127.0.0.1:5000/api/friends/${user.id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(watch()),
+            });
+            const data = await response.json();
+            setUsers((prevUsers) => prevUsers.map((u) => (u.id === data.id ? data : u)));
+            toaster.create({
+                title: "User updated",
+                description: "User updated successfully",
+                type: "success",
+                duration: 2000,
+            });
+            onClose();
+        } catch (error) {
+            console.error(error);
+        }
     }
     return (
-        <DialogRoot >
+        <DialogRoot open={open}>
             <DialogBackdrop />
             <DialogTrigger asChild>
                 <IconButton
@@ -27,11 +58,12 @@ export default function EditModal() {
                     colorScheme='red'
                     size={"sm"}
                     aria-label='See menu'
+                    onClick={onOpen}
                 >
                     <BiEditAlt />
                 </IconButton>
             </DialogTrigger>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(handleEditUser)}>
                 <DialogContent
                     position="fixed"
                     top="50%"
@@ -53,18 +85,12 @@ export default function EditModal() {
                         <Field label={'Description'}>
                             <Textarea placeholder="Tell us about yourself"  {...register("description")} />
                         </Field>
-                        <RadioGroup defaultValue="male" {...register("gender")}>
-                            <HStack gap="6">
-                                <Radio value="male">Male</Radio>
-                                <Radio value="female">Female</Radio>
-                            </HStack>
-                        </RadioGroup>
                     </DialogBody>
                     <DialogFooter>
                         <DialogActionTrigger asChild>
-                            <Button variant="outline">Cancel</Button>
+                            <Button variant="outline" onClick={onClose}>Cancel</Button>
                         </DialogActionTrigger>
-                        <Button type="submit">Save</Button>
+                        <Button type="submit">Update</Button>
                     </DialogFooter>
                 </DialogContent>
             </form>

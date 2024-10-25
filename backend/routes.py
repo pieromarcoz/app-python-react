@@ -16,7 +16,7 @@ def create_friend():
 
         required_fields = ["name", "role", "description", "gender"]
         for field in required_fields:
-            if field not in data:
+            if field not in data or not data.get(field):
                 return jsonify({"error": f"Missing required field: {field}"}), 400
 
         name = data.get("name")
@@ -28,7 +28,7 @@ def create_friend():
         if gender == "male":
             img_url = f"https://avatar.iran.liara.run/public/boy?username={name}"
         elif gender == "female":
-            img_url = f"https://avatar.iran.liara.run/public/female?username={name}"
+            img_url = f"https://avatar.iran.liara.run/public/girl?username={name}"
         else:
             img_url = None
 

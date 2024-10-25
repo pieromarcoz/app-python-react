@@ -1,8 +1,12 @@
 import {Box, Container, Flex} from "@chakra-ui/react";
 import {ColorModeButton, useColorModeValue} from "./ui/color-mode.tsx";
 import CreateUserModal from "./CreateUserModal.tsx";
-
-export default function Navbar() {
+import {User} from "../dummy/dummy.ts";
+interface NavbarProps {
+    users: User[];
+    setUsers: React.Dispatch<React.SetStateAction<User[]>>;
+}
+export default function Navbar({ setUsers}: NavbarProps) {
     return (
         <Container maxW={"900px"}>
             <Box
@@ -31,7 +35,7 @@ export default function Navbar() {
                         gap={3}
                     >
                         <ColorModeButton/>
-                        <CreateUserModal/>
+                        <CreateUserModal setUsers={setUsers}/>
                     </Flex>
                 </Flex>
             </Box>
