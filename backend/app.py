@@ -18,7 +18,8 @@ dist_folder = os.path.join(frontend_folder, "dist")
 @app.route("/<path:filename>")
 def index(filename):
     if not filename:
-        return send_from_directory(dist_folder, "index.html")
+        filename = "index.html"
+    return send_from_directory(dist_folder,filename)
 
 # api routes
 import routes
