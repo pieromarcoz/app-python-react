@@ -15,6 +15,7 @@ import {Radio, RadioGroup} from "./ui/radio.tsx";
 import {Controller, useForm} from "react-hook-form";
 import {toaster} from "./ui/toaster.tsx";
 import {User} from "../dummy/dummy.ts";
+import {BASE_URL} from "../App.tsx";
 interface UserCardProps {
     setUsers: React.Dispatch<React.SetStateAction<User[]>>;
 }
@@ -32,7 +33,7 @@ export default function CreateUserModal({setUsers}: UserCardProps) {
         { value: "male", label: "Male" },
         { value: "female", label: "Female" },
     ]
-    const $apiUrl = import.meta.env.VITE_API_URL;
+    const $apiUrl = BASE_URL;
     const onSubmit = async (data: FormData) => {
         try {
             const response = await fetch($apiUrl + "/friends", {

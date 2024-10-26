@@ -13,6 +13,7 @@ import {useForm} from "react-hook-form";
 import {useEffect} from "react";
 import {toaster} from "./ui/toaster.tsx";
 import {User} from "../dummy/dummy.ts";
+import {BASE_URL} from "../App.tsx";
 
 interface UserProps {
     user: User;
@@ -21,7 +22,7 @@ interface UserProps {
 export default function EditModal({user, setUsers}: UserProps) {
     const { register, handleSubmit, watch, setValue } = useForm();
     const {onClose, open, onOpen} = useDisclosure();
-    const $apiUrl = import.meta.env.VITE_API_URL;
+    const $apiUrl = BASE_URL;
     useEffect(() => {
         setValue("name", user.name);
         setValue("role", user.role);

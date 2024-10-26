@@ -4,6 +4,7 @@ import UserGrid from "./components/UserGrid.tsx";
 import {useState} from "react";
 import {Toaster} from "./components/ui/toaster.tsx";
 import {User} from "./dummy/dummy.ts";
+export const BASE_URL = import.meta.env.MODE === "development" ? "http://127.0.0.1:5000/api" : "/api"
 function App() {
     const [users, setUsers] = useState<User[]>([]); // Tipado correcto
     return (

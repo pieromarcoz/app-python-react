@@ -2,6 +2,7 @@ import {Flex, Grid, Spinner, Text} from "@chakra-ui/react";
 import UserCard from "./UserCard.tsx";
 import {useEffect, useState} from "react";
 import {User} from "../dummy/dummy.ts";
+import {BASE_URL} from "../App.tsx";
 
 interface UserGridProps {
     users: User[];
@@ -9,7 +10,7 @@ interface UserGridProps {
 }
 export default function UserGrid({users, setUsers} : UserGridProps) {
     const [isLoading, setIsLoading] = useState(false);
-    const $apiUrl = import.meta.env.VITE_API_URL;
+    const $apiUrl = BASE_URL;
     useEffect(() => {
         const getUsers = async () => {
             try {

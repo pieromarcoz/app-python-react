@@ -4,13 +4,14 @@ import {Avatar} from "./ui/avatar.tsx";
 import {BiTrash} from "react-icons/bi";
 import EditModal from "./EditModal.tsx";
 import {toaster} from "./ui/toaster.tsx";
+import {BASE_URL} from "../App.tsx";
 
 interface UserCardProps {
     user: User;
     setUsers: React.Dispatch<React.SetStateAction<User[]>>;
 }
 export default function UserCard({user, setUsers}: UserCardProps) {
-    const $apiUrl = import.meta.env.VITE_API_URL;
+    const $apiUrl = BASE_URL;
     const handleDeleteUser = async () => {
         try {
             const response = await fetch($apiUrl + "/friends/" + user.id, {
