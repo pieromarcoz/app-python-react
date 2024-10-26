@@ -12,6 +12,7 @@ interface UserCardProps {
 }
 export default function UserCard({user, setUsers}: UserCardProps) {
     const $apiUrl = BASE_URL;
+    
     const handleDeleteUser = async () => {
         try {
             const response = await fetch($apiUrl + "/friends/" + user.id, {
