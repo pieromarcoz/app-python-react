@@ -32,10 +32,10 @@ export default function CreateUserModal({setUsers}: UserCardProps) {
         { value: "male", label: "Male" },
         { value: "female", label: "Female" },
     ]
-
+    const $apiUrl = import.meta.env.VITE_API_URL;
     const onSubmit = async (data: FormData) => {
         try {
-            const response = await fetch("http://127.0.0.1:5000/api/friends", {
+            const response = await fetch($apiUrl + "/friends", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

@@ -21,7 +21,7 @@ interface UserProps {
 export default function EditModal({user, setUsers}: UserProps) {
     const { register, handleSubmit, watch, setValue } = useForm();
     const {onClose, open, onOpen} = useDisclosure();
-
+    const $apiUrl = import.meta.env.VITE_API_URL;
     useEffect(() => {
         setValue("name", user.name);
         setValue("role", user.role);
@@ -29,7 +29,7 @@ export default function EditModal({user, setUsers}: UserProps) {
     }, [user]);
     const handleEditUser = async () => {
         try {
-            const response = await fetch(`http://127.0.0.1:5000/api/friends/${user.id}`, {
+            const response = await fetch($apiUrl + "/friends", {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",

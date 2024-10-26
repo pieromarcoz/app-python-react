@@ -9,11 +9,12 @@ interface UserGridProps {
 }
 export default function UserGrid({users, setUsers} : UserGridProps) {
     const [isLoading, setIsLoading] = useState(false);
+    const $apiUrl = import.meta.env.VITE_API_URL;
     useEffect(() => {
         const getUsers = async () => {
             try {
                 setIsLoading(true);
-                const response = await fetch("http://127.0.0.1:5000/api/friends");
+                const response = await fetch($apiUrl + "/friends");
                 const data = await response.json();
                 setUsers(data);
             } catch (error) {

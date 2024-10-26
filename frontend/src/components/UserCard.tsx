@@ -10,9 +10,10 @@ interface UserCardProps {
     setUsers: React.Dispatch<React.SetStateAction<User[]>>;
 }
 export default function UserCard({user, setUsers}: UserCardProps) {
+    const $apiUrl = import.meta.env.VITE_API_URL;
     const handleDeleteUser = async () => {
         try {
-            const response = await fetch(`http://127.0.0.1:5000/api/friends/${user.id}`, {
+            const response = await fetch($apiUrl + "/friends/" + user.id, {
                 method: "DELETE",
             });
             const data = await response.json();
